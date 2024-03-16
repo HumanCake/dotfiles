@@ -13,8 +13,8 @@ return {
 
     require('FTerm').setup {
       dimensions = {
-        height = 0.6,
-        width = 0.6,
+        height = 0.8,
+        width = 0.8,
       },
       -- Use the OS-specific default cmd
       cmd = default_cmd,
