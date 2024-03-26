@@ -488,14 +488,29 @@ require('lazy').setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          --map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          vim.api.nvim_set_keymap(
+            'n',
+            'gd',
+            "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'vsplit' })<CR>",
+            { noremap = true, silent = true, desc = '[G]oto [D]efinition' }
+          )
 
           -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
+          vim.api.nvim_set_keymap(
+            'n',
+            'gr',
+            "<cmd>lua require('omnisharp_extended').telescope_lsp_references()<CR>",
+            { noremap = true, silent = true, desc = '[G]oto [R]eferences' }
+          )
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          vim.api.nvim_set_keymap(
+            'n',
+            'gI',
+            "<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<CR>",
+            { noremap = true, silent = true, desc = '[G]oto [I]mplementation' }
+          )
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -563,7 +578,13 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        omnisharp = {},
+        omnisharp = {
+          RoslynExtensionsOptions = {
+            useGlobalMono = 'never',
+            enableEditorConfigSupport = true,
+            enableRoslynAnalyzers = true,
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -591,7 +612,6 @@ require('lazy').setup({
           },
         },
       }
-
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
       --  other tools, you can run
