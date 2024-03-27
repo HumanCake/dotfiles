@@ -11,6 +11,13 @@ return {
   },
   config = function()
     require('neo-tree').setup {}
+
+    -- Toggle Neo-tree on startup
+    vim.cmd [[
+      autocmd VimEnter * Neotree toggle last
+    ]]
+
+    -- Keymap for manually toggling Neo-tree
+    vim.keymap.set('n', '<leader>tn', ':Neotree toggle last<CR>', { noremap = true, silent = true, desc = '[T]oggle [N]eotree' })
   end,
-  vim.keymap.set('n', '<leader>tn', ':Neotree toggle last<CR>', { noremap = true, silent = true, desc = '[T]oggle [N]eotree' }),
 }

@@ -13,5 +13,5 @@ return {
       'nvim-lua/plenary.nvim',
     },
   },
-  vim.keymap.set('n', '<leader>tg', ':LazyGit<CR>', { desc = '[T]oggle lazy [G]it' }),
+  vim.keymap.set('n', '<leader>tg', ':LazyGitCurrentFile<CR>', { desc = '[T]oggle lazy [G]it', noremap = true, silent = true }),
 }
