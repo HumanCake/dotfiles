@@ -479,37 +479,55 @@ require('lazy').setup({
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
           --
+          -- Call the function to set the keymap based on filetype
+          --
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
-          vim.api.nvim_set_keymap(
-            'n',
-            'gd',
-            "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'tab' })<CR>",
-            { noremap = true, silent = true, desc = '[G]oto [D]efinition' }
-          )
+          -- NOTE: for language specific keymaps
+          local bufnr = event.buf
+          local function set_keymap_for_definition()
+            if vim.bo[bufnr].filetype == 'cs' then
+              -- For .cs files, use your specific configuration
+              vim.api.nvim_buf_set_keymap(
+                bufnr,
+                'n',
+                'gd',
+                "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'tab' })<CR>",
+                { noremap = true, silent = true, desc = '[G]oto [D]efinition' }
+              )
+              -- Find references for the word under your cursor.
+              vim.api.nvim_set_keymap(
+                'n',
+                'gr',
+                "<cmd>lua require('omnisharp_extended').telescope_lsp_references()<CR>",
+                { noremap = true, silent = true, desc = '[G]oto [R]eferences' }
+              )
+              -- Jump to the implementation of the word under your cursor.
+              --  Useful when your language has ways of declaring types without an actual implementation.
+              vim.api.nvim_set_keymap(
+                'n',
+                'gI',
+                "<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<CR>",
+                { noremap = true, silent = true, desc = '[G]oto [I]mplementation' }
+              )
+            else
+              -- Jump to the definition of the word under your cursor.
+              --  This is where a variable was first declared, or where a function is defined, etc.
+              --  To jump back, press <C-t>.    -- For other filetypes, use Telescope's lsp_definitions
+              map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+              -- Find references for the word under your cursor.
+              map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+              -- Jump to the implementation of the word under your cursor.
+              --  Useful when your language has ways of declaring types without an actual implementation.
+              map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+            end
+          end
 
-          -- Find references for the word under your cursor.
-          vim.api.nvim_set_keymap(
-            'n',
-            'gr',
-            "<cmd>lua require('omnisharp_extended').telescope_lsp_references()<CR>",
-            { noremap = true, silent = true, desc = '[G]oto [R]eferences' }
-          )
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
-          vim.api.nvim_set_keymap(
-            'n',
-            'gI',
-            "<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<CR>",
-            { noremap = true, silent = true, desc = '[G]oto [I]mplementation' }
-          )
+          set_keymap_for_definition()
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
