@@ -10,7 +10,13 @@ return {
     'MunifTanjim/nui.nvim',
   },
   config = function()
-    require('neo-tree').setup {}
+    require('neo-tree').setup {
+      window = {
+        mappings = {
+          ['<space>'] = 'none',
+        },
+      },
+    }
 
     -- Toggle Neo-tree on startup
     vim.cmd [[

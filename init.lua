@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -117,7 +117,7 @@ function ToggleLineNumbers()
   end
 end
 
--- Bind the toggle function to <leader>tl
+-- Toggle line numbers with <leader>tl
 vim.keymap.set('n', '<leader>tl', ToggleLineNumbers, { desc = '[T]oggle [L]ine Numbers' })
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -297,7 +297,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+        ['<leader>c'] = { name = '[C]ode/[Close]', _ = 'which_key_ignore' },
         ['<leader>cp'] = { name = '[C]o[P]ilot', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>R'] = { name = '[R]ename', _ = 'which_key_ignore' },
@@ -918,57 +918,6 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
-})
-
--- Keybindings for navigating tabs
-vim.api.nvim_set_keymap('n', '<leader>n', ':tabnext<CR>', { noremap = true, silent = true, desc = '[N]ext tab' })
-vim.api.nvim_set_keymap('n', '<leader>p', ':tabprev<CR>', { noremap = true, silent = true, desc = '[P]revious tab' })
-
--- Loop to create mappings for <leader>1, <leader>2, ..., <leader>9
-for i = 1, 9 do
-  vim.api.nvim_set_keymap('n', '<leader>' .. i, ':tabn ' .. i .. '<CR>', { noremap = true, silent = true, desc = 'which_key_ignore' })
-end
-
-function OpenTabWithCurrentBufferCopy()
-  -- Get the current buffer's name (path)
-  local current_buffer = vim.api.nvim_buf_get_name(0)
-
-  -- Open a new tab
-  vim.cmd 'tabnew'
-
-  -- In the new tab, open the same buffer
-  vim.cmd('edit ' .. current_buffer)
-  vim.cmd 'Neotree show'
-end
-
-vim.keymap.set('n', '<leader>nt', OpenTabWithCurrentBufferCopy, { desc = '[N]ew [T]ab' })
-
-function CloseOtherTabs()
-  local current_tabnr = vim.api.nvim_get_current_tabpage()
-  local tabnrs = vim.api.nvim_list_tabpages()
-
-  for _, tabnr in ipairs(tabnrs) do
-    if tabnr ~= current_tabnr then
-      -- Use Vim command to close the tab by its number
-      vim.cmd('tabclose ' .. vim.api.nvim_tabpage_get_number(tabnr))
-    end
-  end
-end
-
-vim.api.nvim_create_user_command('CloseOtherTabs', CloseOtherTabs, {})
-vim.api.nvim_set_keymap('n', '<leader>cot', '<cmd>lua CloseOtherTabs()<CR>', { noremap = true, silent = true, desc = '[C]lose [O]ther [T]abs' })
-
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    vim.defer_fn(function()
-      -- Change the color of the active tab
-      vim.cmd 'hi TabLineSel guibg=#ff9e64 guifg=#1f2335'
-      -- Change the color of the inactive tabs to something lighter
-      vim.cmd 'hi TabLine guibg=#3c4048 guifg=#c8ccd4'
-      -- Change the background of the tabline
-      vim.cmd 'hi TabLineFill guibg=#282c34'
-    end, 100) -- Delays execution by 100 milliseconds
-  end,
 })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
