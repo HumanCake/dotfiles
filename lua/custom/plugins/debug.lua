@@ -116,5 +116,6 @@ return {
       command = get_netcoredbg_path(), -- Update this path to your netcoredbg executable
       args = { '--interpreter=vscode' },
     }
+    dap.adapters.netcoredbg = dap.adapters.coreclr
   end,
 }

@@ -299,8 +299,7 @@ require('lazy').setup({
       require('which-key').register {
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>cp'] = { name = '[C]o[P]ilot', _ = 'which_key_ignore' },
-        ['<leader>D'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
+        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>R'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
@@ -890,7 +889,6 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
 
@@ -928,7 +926,7 @@ vim.api.nvim_set_keymap('n', '<leader>p', ':tabprev<CR>', { noremap = true, sile
 
 -- Loop to create mappings for <leader>1, <leader>2, ..., <leader>9
 for i = 1, 9 do
-  vim.api.nvim_set_keymap('n', '<leader>' .. i, ':tabn ' .. i .. '<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>' .. i, ':tabn ' .. i .. '<CR>', { noremap = true, silent = true, desc = 'which_key_ignore' })
 end
 
 function OpenTabWithCurrentBufferCopy()

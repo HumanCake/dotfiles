@@ -5,6 +5,7 @@ return {
     'nvim-lua/plenary.nvim',
     'antoinemadec/FixCursorHold.nvim',
     'nvim-treesitter/nvim-treesitter',
+    'Issafalcon/neotest-dotnet',
   },
   config = function()
     require('neotest').setup {
@@ -16,7 +17,8 @@ return {
       },
     }
   end,
-  vim.keymap.set('n', '<leader>te', ':Neotest summary toggle<CR>', { desc = '[T]est [E]xplorer' }),
-  vim.keymap.set('n', '<leader>rts', ':Neotest run suite=true<CR>', { desc = '[R]un [T]est [S]uite' }),
-  vim.keymap.set('n', '<leader>rtc', ':Neotest run<CR>', { desc = '[R]un [T]est [C]ase' }),
+  vim.keymap.set('n', '<leader>te', ':Neotest summary toggle<CR>', { desc = '[T]est [E]xplorer', silent = true, noremap = true }),
+  vim.keymap.set('n', '<leader>rts', ':Neotest run suite=true<CR>', { desc = '[R]un [T]est [S]uite', silent = true, noremap = true }),
+  vim.keymap.set('n', '<leader>rtc', ':Neotest run<CR>', { desc = '[R]un [T]est [C]ase', silent = true, noremap = true }),
+  vim.keymap.set('n', '<leader>rtd', ':Neotest run strategy="dap"<CR>', { desc = '[R]un [T]est [D]ebug', silent = true, noremap = true }),
 }
