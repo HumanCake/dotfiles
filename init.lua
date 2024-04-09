@@ -495,7 +495,7 @@ require('lazy').setup({
                 bufnr,
                 'n',
                 'gd',
-                "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'tab' })<CR>",
+                "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'buffer' })<CR>",
                 { noremap = true, silent = true, desc = '[G]oto [D]efinition' }
               )
               -- Find references for the word under your cursor.
@@ -919,5 +919,13 @@ require('lazy').setup({
     },
   },
 })
+
+vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
