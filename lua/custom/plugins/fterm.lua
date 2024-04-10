@@ -33,9 +33,11 @@ return {
         -- Command for Windows with PowerShell
         cmd = 'Powershell.exe -NoLogo -NoExit -Command "cd \'' .. cwd .. '\'"'
       end
+
       require('FTerm'):setup {
         cmd = cmd,
       }
+
       -- Toggle FTerm after updating the command
       require('FTerm').toggle()
     end
