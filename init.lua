@@ -306,6 +306,7 @@ require('lazy').setup({
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]un', _ = 'which_key_ignore' },
         ['<leader>rt'] = { name = '[R]un [T]est', _ = 'which_key_ignore' },
+        ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
       }
     end,
   },
