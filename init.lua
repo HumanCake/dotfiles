@@ -854,5 +854,41 @@ vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true, s
 vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
+--make sure encoding does not change
+vim.opt.encoding = 'utf-8' -- Set internal encoding of Neovim to UTF-8
+vim.opt.fileencoding = 'utf-8' -- Set default file encoding to UTF-8
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local file_enc = vim.bo.fileencoding
+    if file_enc == '' then
+      file_enc = 'utf-8' -- Default if no encoding detected
+    end
+    vim.bo.fileencoding = file_enc
+  end,
+})
+vim.opt.fileencodings = 'utf-8,latin1' -- Checks for UTF-8, then Latin1 if UTF-8 fails
+
+-- Globally set 'bomb' to false to avoid adding BOM to any file
+vim.opt.bomb = false
+
+-- Additionally, ensure 'fileencoding' is preserved without adding BOM
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  callback = function()
+    -- Store the original encoding when the file is first read or created
+    vim.b.original_fileencoding = vim.bo.fileencoding
+    vim.bo.bomb = false -- Ensure BOM is not added
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  callback = function()
+    -- Apply the original encoding when the file is about to be saved
+    if vim.b.original_fileencoding and vim.b.original_fileencoding ~= '' then
+      vim.bo.fileencoding = vim.b.original_fileencoding
+      vim.bo.bomb = false -- Ensure BOM is not added
+    end
+  end,
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
