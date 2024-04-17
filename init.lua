@@ -511,10 +511,17 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         omnisharp = {
+          handlers = {
+            ['textDocument/definition'] = function(...)
+              return require('omnisharp_extended').handler(...)
+            end,
+          },
+          -- Additional settings for Roslyn and project handling
           RoslynExtensionsOptions = {
-            useGlobalMono = 'never',
+            useGlobalMono = 'never', -- Ensure OmniSharp uses .NET Core
             enableEditorConfigSupport = true,
             enableRoslynAnalyzers = true,
+            organizeImportsOnFormat = true,
           },
         },
         -- gopls = {},
@@ -558,6 +565,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
         'csharpier', -- Used to format C# code
+        'netcoredbg', -- Used for debugging C# code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -780,7 +788,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'c_sharp', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
