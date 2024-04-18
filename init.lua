@@ -511,12 +511,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         omnisharp = {
-          handlers = {
-            ['textDocument/definition'] = function(...)
-              return require('omnisharp_extended').handler(...)
-            end,
-          },
-          -- Additional settings for Roslyn and project handling
+          -- Settings for Roslyn and project handling
           RoslynExtensionsOptions = {
             useGlobalMono = 'never', -- Ensure OmniSharp uses .NET Core
             enableEditorConfigSupport = true,
