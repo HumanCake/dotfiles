@@ -105,21 +105,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -213,14 +198,11 @@ require('lazy').setup({
       require('which-key').register {
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>cp'] = { name = '[C]o[P]ilot', _ = 'which_key_ignore' },
-        ['<leader>D'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ebug', _ = 'which_key_ignore' },
-        ['<leader>R'] = { name = '[R]ename', _ = 'which_key_ignore' },
+        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]un', _ = 'which_key_ignore' },
-        ['<leader>rt'] = { name = '[R]un [T]est', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
       }
     end,
@@ -403,46 +385,15 @@ require('lazy').setup({
           end
 
           -- NOTE: for language specific keymaps
-          local bufnr = event.buf
-          local function set_keymap_for_definition()
-            if vim.bo[bufnr].filetype == 'cs' then
-              -- For .cs files, use your specific configuration
-              vim.api.nvim_buf_set_keymap(
-                bufnr,
-                'n',
-                'gd',
-                "<cmd>lua require('omnisharp_extended').telescope_lsp_definition({ jump_type = 'buffer' })<CR>",
-                { noremap = true, silent = true, desc = '[G]oto [D]efinition' }
-              )
-              -- Find references for the word under your cursor.
-              vim.api.nvim_set_keymap(
-                'n',
-                'gr',
-                "<cmd>lua require('omnisharp_extended').telescope_lsp_references()<CR>",
-                { noremap = true, silent = true, desc = '[G]oto [R]eferences' }
-              )
-              -- Jump to the implementation of the word under your cursor.
-              --  Useful when your language has ways of declaring types without an actual implementation.
-              vim.api.nvim_set_keymap(
-                'n',
-                'gI',
-                "<cmd>lua require('omnisharp_extended').telescope_lsp_implementation()<CR>",
-                { noremap = true, silent = true, desc = '[G]oto [I]mplementation' }
-              )
-            else
-              -- Jump to the definition of the word under your cursor.
-              --  This is where a variable was first declared, or where a function is defined, etc.
-              --  To jump back, press <C-t>.    -- For other filetypes, use Telescope's lsp_definitions
-              map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-              -- Find references for the word under your cursor.
-              map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-              -- Jump to the implementation of the word under your cursor.
-              --  Useful when your language has ways of declaring types without an actual implementation.
-              map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-            end
-          end
-
-          set_keymap_for_definition()
+          -- Jump to the definition of the word under your cursor.
+          --  This is where a variable was first declared, or where a function is defined, etc.
+          --  To jump back, press <C-t>.    -- For other filetypes, use Telescope's lsp_definitions
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          -- Find references for the word under your cursor.
+          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          -- Jump to the implementation of the word under your cursor.
+          --  Useful when your language has ways of declaring types without an actual implementation.
+          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -510,15 +461,6 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        omnisharp = {
-          -- Settings for Roslyn and project handling
-          RoslynExtensionsOptions = {
-            useGlobalMono = 'never', -- Ensure OmniSharp uses .NET Core
-            enableEditorConfigSupport = true,
-            enableRoslynAnalyzers = true,
-            organizeImportsOnFormat = true,
-          },
-        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -559,8 +501,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
-        'csharpier', -- Used to format C# code
-        'netcoredbg', -- Used for debugging C# code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -848,50 +788,6 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
-})
-
-vim.api.nvim_set_keymap('n', '<A-j>', ':m .+1<CR>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<A-k>', ':m .-2<CR>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
-
---make sure encoding does not change
-vim.opt.encoding = 'utf-8' -- Set internal encoding of Neovim to UTF-8
-vim.opt.fileencoding = 'utf-8' -- Set default file encoding to UTF-8
-
-vim.api.nvim_create_autocmd('BufReadPost', {
-  callback = function()
-    local file_enc = vim.bo.fileencoding
-    if file_enc == '' then
-      file_enc = 'utf-8' -- Default if no encoding detected
-    end
-    vim.bo.fileencoding = file_enc
-  end,
-})
-vim.opt.fileencodings = 'utf-8,latin1' -- Checks for UTF-8, then Latin1 if UTF-8 fails
-
--- Globally set 'bomb' to false to avoid adding BOM to any file
-vim.opt.bomb = false
-
--- Additionally, ensure 'fileencoding' is preserved without adding BOM
-vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
-  callback = function()
-    -- Store the original encoding when the file is first read or created
-    vim.b.original_fileencoding = vim.bo.fileencoding
-    vim.bo.bomb = false -- Ensure BOM is not added
-  end,
-})
-
-vim.api.nvim_create_autocmd('BufWritePre', {
-  callback = function()
-    -- Apply the original encoding when the file is about to be saved
-    if vim.b.original_fileencoding and vim.b.original_fileencoding ~= '' then
-      vim.bo.fileencoding = vim.b.original_fileencoding
-      vim.bo.bomb = false -- Ensure BOM is not added
-    end
-  end,
 })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
