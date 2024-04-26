@@ -31,6 +31,8 @@ function ToggleLineNumbers()
   end
 end
 
+vim.opt.linebreak = true
+
 -- Toggle line numbers with <leader>tl
 vim.keymap.set('n', '<leader>tl', ToggleLineNumbers, { desc = '[T]oggle [L]ine Numbers' })
 
@@ -39,6 +41,10 @@ vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
+
+-- Setting up spell checker
+vim.opt.spelllang = 'da,en_us'
+vim.opt.spell = true
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -473,6 +479,7 @@ require('lazy').setup({
         -- tsserver = {},
         --
 
+        texlab = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
