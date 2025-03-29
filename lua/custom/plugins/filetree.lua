@@ -27,6 +27,6 @@ return {
     ]]
 
     -- Keymap for manually toggling Neo-tree
-    vim.keymap.set('n', '<leader>tn', ':Neotree toggle last<CR>', { noremap = true, silent = true, desc = '[T]oggle [N]eotree' })
+    vim.keymap.set('n', '<leader>te', ':Neotree toggle last<CR>', { noremap = true, silent = true, desc = '[T]oggle [E]xplorer' })
   end,
 }
