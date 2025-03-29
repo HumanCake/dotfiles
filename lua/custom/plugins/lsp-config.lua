@@ -64,10 +64,10 @@ return { -- LSP Configuration & Plugins
         --  To jump back, press <C-t>.    -- For other filetypes, use Telescope's lsp_definitions
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('<leader>gu', require('telescope.builtin').lsp_references, '[G]oto [U]sages')
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
-        map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+        map('<leader>gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
