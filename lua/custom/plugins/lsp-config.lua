@@ -178,6 +178,8 @@ return { -- LSP Configuration & Plugins
       'csharpier',
       'typescript-language-server',
       'html',
+      'marksman',
+      'mdformat',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
