@@ -7,8 +7,6 @@ return { -- Useful plugin to show you pending keybinds.
     wk.add {
       { '<leader>c', group = '[C]ode' },
       { '<leader>c_', hidden = true },
-      { '<leader>cp', group = '[C]o[P]ilot' },
-      { '<leader>cp_', hidden = true },
       { '<leader>d', group = '[D]ocument' },
       { '<leader>d_', hidden = true },
       { '<leader>h', group = '[H]arpoon' },
@@ -21,6 +19,8 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>t_', hidden = true },
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>w_', hidden = true },
+      { '<leader>g', group = '[G]oto' },
+      { '<leader>g_', hidden = true },
     }
   end,
 }

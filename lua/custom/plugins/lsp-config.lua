@@ -67,7 +67,7 @@ return { -- LSP Configuration & Plugins
         map('<leader>gu', require('telescope.builtin').lsp_references, '[G]oto [U]sages')
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
-        map('<leader>gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+        map('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
