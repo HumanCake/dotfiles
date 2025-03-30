@@ -25,8 +25,25 @@ vim.keymap.set('n', 'K', ':m .-2<CR>==')
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 
--- Reset buffer to saved file with <Leader>r
+-- Reset buffer to saved file with <Leader>dr
 vim.keymap.set('n', '<Leader>dr', ':e!<CR>', { desc = '[D]ocument [R]eset' })
 
 -- Toggle line numbers with <leader>tl
 vim.keymap.set('n', '<leader>tl', ToggleLineNumbers, { desc = '[T]oggle [L]ine Numbers' })
+
+local terminal_window = nil
+
+vim.keymap.set('n', '<space>tt', function()
+  -- If the terminal window exists, toggle it (close it)
+  if terminal_window and vim.api.nvim_win_is_valid(terminal_window) then
+    vim.api.nvim_win_close(terminal_window, true)
+    terminal_window = nil
+  else
+    -- If no terminal window is open, create a new one
+    vim.cmd.vnew()
+    vim.cmd.term()
+    vim.cmd.wincmd 'J'
+    vim.api.nvim_win_set_height(0, 15)
+    terminal_window = vim.api.nvim_get_current_win()
+  end
+end)
