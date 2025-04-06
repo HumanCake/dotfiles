@@ -1,6 +1,7 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+local wk = require 'which-key'
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -29,18 +30,21 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 -- Reset buffer to saved file with <Leader>dr
 vim.keymap.set('n', '<Leader>dr', ':e!<CR>', { desc = '[D]ocument [R]eset' })
 
+wk.add {
+  { '<leader>t', group = '[T]oggle' },
+  { '<leader>t_', hidden = true },
+}
 -- Toggle line numbers with <leader>tl
 vim.keymap.set('n', '<leader>tl', ToggleLineNumbers, { desc = '[T]oggle [L]ine Numbers' })
 
+-- Open and close terminal window
 local terminal_window = nil
 
 vim.keymap.set('n', '<space>tt', function()
-  -- If the terminal window exists, toggle it (close it)
   if terminal_window and vim.api.nvim_win_is_valid(terminal_window) then
     vim.api.nvim_win_close(terminal_window, true)
     terminal_window = nil
   else
-    -- If no terminal window is open, create a new one
     vim.cmd.vnew()
     vim.cmd.term()
     vim.cmd.wincmd 'J'
@@ -48,3 +52,14 @@ vim.keymap.set('n', '<space>tt', function()
     terminal_window = vim.api.nvim_get_current_win()
   end
 end)
+
+-- Navigate tabs
+
+for i = 1, 9 do
+  vim.keymap.set('n', '<leader>' .. i, function()
+    vim.cmd('tabn' .. i)
+  end, { silent = true })
+  wk.add {
+    { '<leader>' .. i, hidden = true },
+  }
+end

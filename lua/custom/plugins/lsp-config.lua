@@ -118,6 +118,20 @@ return { -- LSP Configuration & Plugins
       end,
     })
 
+    local wk = require 'which-key'
+    wk.add {
+      { '<leader>g', group = '[G]oto' },
+      { '<leader>g_', hidden = true },
+      { '<leader>c', group = '[C]ode' },
+      { '<leader>c_', hidden = true },
+      { '<leader>d', group = '[D]ocument' },
+      { '<leader>d_', hidden = true },
+      { '<leader>r', group = '[R]ename' },
+      { '<leader>r_', hidden = true },
+      { '<leader>w', group = '[W]orkspace' },
+      { '<leader>w_', hidden = true },
+    }
+
     -- LSP servers and clients are able to communicate to each other what features they support.
     --  By default, Neovim doesn't support everything that is in the LSP specification.
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -177,6 +191,7 @@ return { -- LSP Configuration & Plugins
       'omnisharp',
       'csharpier',
       'typescript-language-server',
+      'angularls',
       'html',
       'marksman',
       'mdformat',
