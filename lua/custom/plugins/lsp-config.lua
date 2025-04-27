@@ -8,6 +8,8 @@ return {
     { 'williamboman/mason.nvim', opts = {} },
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    'Hoffs/omnisharp-extended-lsp.nvim',
+    lazy = true,
 
     -- Useful status updates for LSP.
     { 'j-hui/fidget.nvim', opts = {} },
@@ -59,46 +61,34 @@ return {
           vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
-        -- NOTE: for language specific keymaps
-        -- Jump to the definition of the word under your cursor.
-        --  This is where a variable was first declared, or where a function is defined, etc.
-        --  To jump back, press <C-t>.    -- For other filetypes, use Telescope's lsp_definitions
-        map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        -- Find references for the word under your cursor.
-        map('<leader>gu', require('telescope.builtin').lsp_references, '[G]oto [U]sages')
-        -- Jump to the implementation of the word under your cursor.
-        --  Useful when your language has ways of declaring types without an actual implementation.
-        map('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+        local ft = vim.bo[event.buf].filetype
+        if ft == 'cs' then
+          map('gd', require('omnisharp_extended').telescope_lsp_definition, '[G]oto [D]efinition')
+          map('<leader>gu', require('omnisharp_extended').telescope_lsp_references, '[G]oto [U]sages')
+          map('<leader>gi', require('omnisharp_extended').telescope_lsp_implementation, '[G]oto [I]mplementation')
+          map('<leader>td', require('omnisharp_extended').telescope_lsp_type_definition, '[T]ype [D]efinition')
+        else
+          -- For other languages (like Lua), fallback to default LSP handlers
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+          map('<leader>gu', require('telescope.builtin').lsp_references, '[G]oto [U]sages')
+          map('<leader>gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          map('<leader>td', require('telescope.builtin').lsp_type_definitions, '[T]ype [D]efinition')
+        end
 
-        -- Jump to the type of the word under your cursor.
-        --  Useful when you're not sure what type a variable is and you want to see
-        --  the definition of its *type*, not where it was *defined*.
-        map('<leader>td', require('telescope.builtin').lsp_type_definitions, '[T]ype [D]efinition')
-
-        -- Fuzzy find all the symbols in your current document.
-        --  Symbols are things like variables, functions, types, etc.
         map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
-        -- Fuzzy find all the symbols in your current workspace.
-        --  Similar to document symbols, except searches over your entire project.
         map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-        -- Rename the variable under your cursor.
-        --  Most Language Servers support renaming across files, etc.
         map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-        -- Execute a code action, usually your cursor needs to be on top of an error
-        -- or a suggestion from your LSP for this to activate.
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-        -- Opens a popup that displays documentation about the word under your cursor
-        --  See `:help K` for why this keymap.
         map('H', vim.lsp.buf.hover, 'Hover Documentation')
 
-        -- WARN: This is not Goto Definition, this is Goto Declaration.
-        --  For example, in C this would take you to the header.
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+        --
         -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
         ---@param client vim.lsp.Client
         ---@param method vim.lsp.protocol.Method
@@ -222,6 +212,18 @@ return {
       -- But for many setups, the LSP (`tsserver`) will work just fine
       -- tsserver = {},
       --
+
+      omnisharp = {
+        cmd = { 'omnisharp', '--languageserver', '--hostPID', tostring(vim.fn.getpid()) },
+        root_dir = require('lspconfig.util').root_pattern('*.sln', '*.csproj', '.git'),
+        handlers = require('omnisharp_extended').handlers,
+        enable_editorconfig_support = true,
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+        sdk_include_prereleases = true,
+        analyze_open_documents_only = false,
+      },
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
@@ -257,19 +259,19 @@ return {
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      require('mason-lspconfig').setup {
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
-    end,
-  }
+    require('mason-lspconfig').setup {
+      ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+      automatic_installation = false,
+      handlers = {
+        function(server_name)
+          local server = servers[server_name] or {}
+          -- This handles overriding only values explicitly passed
+          -- by the server configuration above. Useful when disabling
+          -- certain features of an LSP (for example, turning off formatting for ts_ls)
+          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          require('lspconfig')[server_name].setup(server)
+        end,
+      },
+    }
+  end,
+}
