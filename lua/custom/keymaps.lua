@@ -40,7 +40,7 @@ vim.keymap.set('n', '<leader>tl', ToggleLineNumbers, { desc = '[T]oggle [L]ine N
 -- Open and close terminal window
 local terminal_window = nil
 
-vim.keymap.set('n', '<space>tt', function()
+vim.keymap.set('n', '<leader>tt', function()
   if terminal_window and vim.api.nvim_win_is_valid(terminal_window) then
     vim.api.nvim_win_close(terminal_window, true)
     terminal_window = nil
@@ -54,7 +54,6 @@ vim.keymap.set('n', '<space>tt', function()
 end)
 
 -- Navigate tabs
-
 for i = 1, 9 do
   vim.keymap.set('n', '<leader>' .. i, function()
     vim.cmd('tabn' .. i)
@@ -63,3 +62,10 @@ for i = 1, 9 do
     { '<leader>' .. i, hidden = true },
   }
 end
+
+vim.keymap.set('n', '<leader>pb', function()
+  vim.cmd 'bprevious'
+end, { desc = '[P]revious [B]uffer' })
+vim.keymap.set('n', '<leader>nb', function()
+  vim.cmd 'bnext'
+end, { desc = '[N]ext [B]uffer' })
