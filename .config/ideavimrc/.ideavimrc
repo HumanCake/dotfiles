@@ -1,0 +1,214 @@
+set scrolloff=15
+set linenumber
+set showmode
+set showcmd
+
+set smartcase
+set incsearch
+set hlsearch
+
+set visualbell
+
+" Use system clipboard
+set clipboard+=unnamed   
+
+let mapleader = " "
+
+
+"" Plugin Settings
+"" ========================================================
+
+set surround
+set highlightedyank
+set sneak
+set nerdtree
+set easymotion
+set notimeout
+set which-key
+
+"" Key mappings
+"" ========================================================
+
+inoremap jk <Esc>
+
+" Toggle relative linenumber
+let g:WhichKeyDesc_tl = "<leader>tl Toggle relative linenumber"
+map <leader>tl :set relativenumber!<CR>
+
+" Quick Implementations
+let g:WhichKeyDesc_H = "Quick Implementations"
+map H <Action>(QuickImplementations)
+
+" Tab navigation
+let g:WhichKeyDesc_nt = "<leader>nt Next tab"
+map <leader>nt :tabnext<CR>
+let g:WhichKeyDesc_pt = "<leader>pt Previous tab"
+map <leader>pt :tabprev<CR>
+
+" Pane navigation
+let g:WhichKeyDesc_Ah = "<A-h> Move to left pane"
+nnoremap <A-h> <C-w>h
+let g:WhichKeyDesc_Al = "<A-l> Move to right pane"
+nnoremap <A-l> <C-w>l
+let g:WhichKeyDesc_Ak = "<A-k> Move to upper pane"
+nnoremap <A-k> <C-w>k
+let g:WhichKeyDesc_Aj = "<A-j> Move to lower pane"
+nnoremap <A-j> <C-w>j
+
+" Jump between methods
+let g:WhichKeyDesc_pm = "<leader>pm Previous method"
+map <leader>pm <Action>(MethodUp)
+let g:WhichKeyDesc_nm = "<leader>nm Next method"
+map <leader>nm <Action>(MethodDown)
+
+"" Leader commands
+"" ========================================================
+let g:WhichKeyDesc_leader = "<leader> Leader key"
+
+" Comment lines
+let g:WhichKeyDesc_cl = "<leader>cl Comment lines"
+map <leader>cl <action>(CommentByLineComment)
+
+" Open NERDTree (use q to exit)
+let g:WhichKeyDesc_te = "<leader>te Toggle NERDTree"
+map <leader>te :NERDTreeToggle<CR> 
+ 
+" Window splits
+let g:WhichKeyDesc_s = "<leader>s Split Window"
+let g:WhichKeyDesc_sv = "<leader>sv Split window vertically"
+map <leader>sv <Action>(SplitVertically)
+let g:WhichKeyDesc_sh = "<leader>sh Split window horizontally"
+map <leader>sh <Action>(SplitHorizontally)
+let g:WhichKeyDesc_su = "<leader>su Unsplit window"
+map <leader>su <Action>(Unsplit)
+let g:WhichKeyDesc_sm = "<leader>sm Move editor to opposite tab group"
+map <leader>sm <Action>(MoveEditorToOppositeTabGroup)
+
+" Display options
+let g:WhichKeyDesc_td = "<leader>td Toggle distraction-free mode"
+map <leader>td <Action>(ToggleDistractionFreeMode)
+let g:WhichKeyDesc_tz = "<leader>tz Toggle zen mode"
+map <leader>tz <Action>(ToggleZenMode)
+let g:WhichKeyDesc_tf = "<leader>tf Toggle full screen"
+map <leader>tf <Action>(ToggleFullScreen)
+
+" Actions
+let g:WhichKeyDesc_am = "<leader>am Show intention actions"
+map <leader>am <Action>(ShowIntentionActions)
+let g:WhichKeyDesc_as = "<leader>as Search everywhere"
+map <leader>as <Action>(SearchEverywhere)
+map <leader>af <Action>(SilentReformentAndCleanup)
+
+" File navigation
+let g:WhichKeyDesc_s = "<leader>s Search"
+let g:WhichKeyDesc_sf = "<leader>sf Go to file"
+map <leader>sf <Action>(GotoFile)
+let g:WhichKeyDesc_sr = "<leader>sr Recent files"
+map <leader>sr <Action>(RecentFiles)
+let g:WhichKeyDesc_sp = "<leader>sp Find in path"
+map <leader>sp <Action>(FindInPath)
+let g:WhichKeyDesc_sc = "<leader>sc Go to action"
+map <leader>sc <Action>(GotoAction)
+let g:WhichKeyDesc_leaderleader = "<leader><leader> Recent files"
+map <leader><leader> <Action>(RecentFiles)
+let g:WhichKeyDesc_fl = "<leader>fl Recent locations"
+map <leader>fl <Action>(RecentLocations)
+let g:WhichKeyDesc_fs = "<leader>fs New scratch file"
+map <leader>fs <Action>(NewScratchFile)
+let g:WhichKeyDesc_tw = "<leader>tw Hide all windows"
+map <leader>tw <Action>(HideAllWindows)
+
+" Refactoring
+let g:WhichKeyDesc_r = "<leader>r Refactor"
+let g:WhichKeyDesc_rn = "<leader>rn Rename element"
+map <leader>rn <Action>(RenameElement)
+let g:WhichKeyDesc_rm = "<leader>rm Extract method"
+map <leader>rm <Action>(ExtractMethod)
+let g:WhichKeyDesc_rv = "<leader>rv Introduce variable"
+map <leader>rv <Action>(IntroduceVariable)
+let g:WhichKeyDesc_rf = "<leader>rf Introduce field"
+map <leader>rf <Action>(IntroduceField)
+let g:WhichKeyDesc_rs = "<leader>rs Change signature"
+map <leader>rs <Action>(ChangeSignature)
+let g:WhichKeyDesc_rl = "<leader>rl Quick list popup action"
+map <leader>rl <Action>(Refactorings.QuickListPopupAction)
+
+" Go to code
+let g:WhichKeyDesc_gd = "<leader>gd Go to declaration"
+nmap <leader>gd <Action>(GotoDeclaration)
+let g:WhichKeyDesc_gy = "<leader>gy Go to type declaration"
+nmap <leader>gy <Action>(GotoTypeDeclaration)
+let g:WhichKeyDesc_gi = "<leader>gi Go to implementation"
+nmap <leader>gi <Action>(GotoImplementation)
+let g:WhichKeyDesc_gu = "<leader>gu Show usages"
+nmap <leader>gu <Action>(ShowUsages)
+let g:WhichKeyDesc_gt = "<leader>gt Go to test"
+nmap <leader>gt <Action>(GotoTest)
+let g:WhichKeyDesc_gf = "<leader>gf Back"
+nmap <leader>gf <Action>(Back)
+let g:WhichKeyDesc_gb = "<leader>gb Forward"
+nmap <leader>gb <Action>(Forward)
+
+" Git windows
+let g:WhichKeyDesc_gc = "<leader>gc Check in project"
+map <leader>gc <Action>(CheckinProject)
+let g:WhichKeyDesc_gs = "<leader>gs Activate version control tool window"
+map <leader>gs <Action>(ActivateVersionControlToolWindow)
+let g:WhichKeyDesc_gb = "<leader>gb Git branches"
+map <leader>gb <Action>(Git.Branches)
+
+" Errors
+let g:WhichKeyDesc_ne = "<leader>ne Next error in solution"
+map <leader>ne <Action>(ReSharperGotoNextErrorInSolution)
+let g:WhichKeyDesc_pe = "<leader>pe Previous error in solution"
+map <leader>pe <Action>(ReSharperGotoPrevErrorInSolution)
+
+" EasyMotion
+let g:WhichKeyDesc_j = "<leader>j Jump"
+map <leader>j <Plug>(easymotion-s)
+
+" Test maps
+let g:WhichKeyDesc_rat = "<leader>rat Run all tests"
+map <leader>rat <Action>(RiderUnitTestRunSolutionAction)
+let g:WhichKeyDesc_rt = "<leader>rt Run test"
+map <leader>rt <Action>(RiderUnitTestRunContextAction)
+aet g:WhichKeyDesc_rrt = "<leader>rrt Repeat previous test run"
+map <leader>rrt <Action>(RiderUnitTestRepeatPreviousRunAction)
+let g:WhichKeyDesc_tb = "<leader>tb Toggle line breakpoint"
+map <leader>tb <Action>(ToggleLineBreakpoint)
+
+" Tabs
+let g:WhichKeyDesc_1 = "<leader>1 Go to tab 1"
+map <leader>1 <Action>(GoToTab1)
+let g:WhichKeyDesc_2 = "<leader>2 Go to tab 2"
+map <leader>2 <Action>(GoToTab2)
+let g:WhichKeyDesc_3 = "<leader>3 Go to tab 3"
+map <leader>3 <Action>(GoToTab3)
+let g:WhichKeyDesc_4 = "<leader>4 Go to tab 4"
+map <leader>4 <Action>(GoToTab4)
+let g:WhichKeyDesc_5 = "<leader>5 Go to tab 5"
+map <leader>5 <Action>(GoToTab5)
+let g:WhichKeyDesc_6 = "<leader>6 Go to tab 6"
+map <leader>6 <Action>(GoToTab6)
+let g:WhichKeyDesc_7 = "<leader>7 Go to tab 7"
+map <leader>7 <Action>(GoToTab7)
+let g:WhichKeyDesc_8 = "<leader>8 Go to tab 8"
+map <leader>8 <Action>(GoToTab8)
+let g:WhichKeyDesc_9 = "<leader>9 Go to tab 9"
+map <leader>9 <Action>(GoToTab9)
+
+" Pin active editor tab
+let g:WhichKeyDesc_pin = "<leader>pin Pin active editor tab"
+map <leader>pin <Action>(PinActiveEditorTab)
+
+" Close all editors but active
+let g:WhichKeyDesc_c = "<leader>c Close"
+let g:WhichKeyDesc_co = "<leader>co Close all editors but active"
+map <leader>co <Action>(CloseAllEditorsButActive)
+let g:WhichKeyDesc_cc = "<leader>cc Close content"
+map <leader>cc <action>(CloseContent)
+
+let g:WhichKeyDesc_n = "<leader>n Next"
+let g:WhichKeyDesc_p = "<leader>p Previous"
+let g:WhichKeyDesc_t = "<leader>t Toggle"
+let g:WhichKeyDesc_g = "<leader>g Go to"

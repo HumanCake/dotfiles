@@ -11,7 +11,7 @@ DOTFILES_DIR="$SCRIPT_DIR"
 # Define the config directory where symlinks will go
 CONFIG_DIR="$HOME/.config"
 
-echo "🔗 Setting up nvim and kitty configs..."
+echo "🔗 Setting up configs..."
 
 # Create ~/.config if it doesn't exist
 mkdir -p "$CONFIG_DIR"
@@ -31,6 +31,14 @@ if [ -e "$CONFIG_DIR/kitty" ] && [ ! -L "$CONFIG_DIR/kitty" ]; then
 fi
 ln -sfn "$DOTFILES_DIR/.config/kitty" "$CONFIG_DIR/kitty"
 echo "✅ Linked kitty → $DOTFILES_DIR/.config/kitty"
+
+# Link ideavimrc (located in home directory)
+if [ -e "$HOME/.ideavimrc" ] && [ ! -L "$HOME/.ideavimrc" ]; then
+  echo "📦 Backing up existing ideavimrc..."
+  mv "$HOME/.ideavimrc" "$HOME/.ideavimrc.backup"
+fi
+ln -sfn "$DOTFILES_DIR/.config/ideavim/ideavimrc" "$HOME/.ideavimrc"
+echo "✅ Linked .ideavimrc → $DOTFILES_DIR/.config/ideavim/ideavimrc"
 
 echo "🎉 Done."
 
