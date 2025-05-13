@@ -37,8 +37,8 @@ if [ -e "$HOME/.ideavimrc" ] && [ ! -L "$HOME/.ideavimrc" ]; then
   echo "📦 Backing up existing ideavimrc..."
   mv "$HOME/.ideavimrc" "$HOME/.ideavimrc.backup"
 fi
-ln -sfn "$DOTFILES_DIR/.config/ideavim/ideavimrc" "$HOME/.ideavimrc"
-echo "✅ Linked .ideavimrc → $DOTFILES_DIR/.config/ideavim/ideavimrc"
+ln -sfn "$DOTFILES_DIR/.config/ideavim/.ideavimrc" "$HOME/.ideavimrc"
+echo "✅ Linked .ideavimrc → $DOTFILES_DIR/.config/ideavim/.ideavimrc"
 
 echo "🎉 Done."
 
