@@ -54,6 +54,14 @@ let g:WhichKeyDesc_Ak = "<A-k> Move to upper pane"
 nnoremap <A-k> <C-w>k
 let g:WhichKeyDesc_Aj = "<A-j> Move to lower pane"
 nnoremap <A-j> <C-w>j
+let g:WhichKeyDesc_J = "Move line down"
+
+" Move lines up and down (with proper reselection)
+let g:WhichKeyDesc_J = "Move line down"
+nnoremap J :m .+1<CR>==
+
+let g:WhichKeyDesc_K = "Move line up"
+nnoremap K :m .-2<CR>==
 
 " Jump between methods
 let g:WhichKeyDesc_pm = "<leader>pm Previous method"
