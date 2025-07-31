@@ -4,7 +4,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 -- Look and feel
 config.font = wezterm.font("JetBrains Mono")
-config.color_scheme = "Darcula (base16)"
+config.color_scheme = "Dracula (Official)"
 config.enable_tab_bar = false
 
 config.window_padding = {
