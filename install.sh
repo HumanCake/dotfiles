@@ -40,5 +40,13 @@ fi
 ln -sfn "$DOTFILES_DIR/.config/ideavim/.ideavimrc" "$HOME/.ideavimrc"
 echo "✅ Linked .ideavimrc → $DOTFILES_DIR/.config/ideavim/.ideavimrc"
 
+# Link WezTerm
+if [ -e "$CONFIG_DIR/wezterm" ] && [ ! -L "$CONFIG_DIR/wezterm" ]; then
+  echo "📦 Backing up existing wezterm config..."
+  mv "$CONFIG_DIR/wezterm" "$CONFIG_DIR/wezterm.backup"
+fi
+ln -sfn "$DOTFILES_DIR/.config/wezterm" "$CONFIG_DIR/wezterm"
+echo "✅ Linked wezterm → $DOTFILES_DIR/.config/wezterm"
+
 echo "🎉 Done."
 
