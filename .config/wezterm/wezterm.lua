@@ -2,8 +2,14 @@
 local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
+
 -- enable wezterm to work in virtualbox windows
 config.prefer_egl = true
+
+-- fix alt on mac
+config.send_composed_key_when_left_alt_is_pressed = true
+config.send_composed_key_when_right_alt_is_pressed = true
+
 -- Look and feel
 config.font = wezterm.font("JetBrains Mono")
 config.color_scheme = "Dracula (Official)"
