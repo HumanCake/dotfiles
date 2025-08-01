@@ -1,4 +1,3 @@
--- Pull in the wezterm API
 local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
@@ -13,7 +12,7 @@ config.send_composed_key_when_right_alt_is_pressed = true
 -- Look and feel
 config.font = wezterm.font("JetBrains Mono")
 config.color_scheme = "Dracula (Official)"
-config.enable_tab_bar = false
+config.enable_tab_bar = true
 
 config.window_padding = {
 	left = 0,
@@ -86,10 +85,34 @@ config.keys = {
 	},
 	-- Close panes
 	{
-		key = "c",
+		key = "q",
 		mods = "LEADER",
 		action = wezterm.action.CloseCurrentPane({ confirm = true }),
 	},
 }
 
+-- Domains
+-- Set your default local shell domain
+config.default_domain = "local"
+
+-- Define SSH domains properly
+config.ssh_domains = {
+	{
+		name = "myserver",
+		remote_address = "192.168.50.85",
+		multiplexing = "None",
+		username = "kasper",
+	},
+}
+table.insert(config.keys, {
+	key = "1",
+	mods = "LEADER",
+	action = wezterm.action.SpawnTab({ DomainName = "myserver" }),
+})
+
+config.launch_menu = {
+	{ label = "ZSH", args = { "zsh" } },
+	{ label = "Bash", args = { "bash" } },
+	{ label = "SSH to Server test name to check", args = { "ssh", "kasper@192.168.50.85" } },
+}
 return config
