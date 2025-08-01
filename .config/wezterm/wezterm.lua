@@ -2,6 +2,8 @@
 local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
+-- enable wezterm to work in virtualbox windows
+config.prefer_egl = true
 -- Look and feel
 config.font = wezterm.font("JetBrains Mono")
 config.color_scheme = "Dracula (Official)"
