@@ -12,7 +12,9 @@ config.send_composed_key_when_right_alt_is_pressed = true
 -- Look and feel
 config.font = wezterm.font("JetBrains Mono")
 config.color_scheme = "Dracula (Official)"
-config.enable_tab_bar = true
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = false
+config.window_decorations = "RESIZE"
 
 config.window_padding = {
 	left = 0,
@@ -104,15 +106,11 @@ config.ssh_domains = {
 		username = "kasper",
 	},
 }
+
 table.insert(config.keys, {
 	key = "1",
 	mods = "LEADER",
 	action = wezterm.action.SpawnTab({ DomainName = "myserver" }),
 })
 
-config.launch_menu = {
-	{ label = "ZSH", args = { "zsh" } },
-	{ label = "Bash", args = { "bash" } },
-	{ label = "SSH to Server test name to check", args = { "ssh", "kasper@192.168.50.85" } },
-}
 return config
