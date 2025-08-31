@@ -24,14 +24,6 @@ fi
 ln -sfn "$DOTFILES_DIR/.config/nvim" "$CONFIG_DIR/nvim"
 echo "✅ Linked nvim → $DOTFILES_DIR/.config/nvim"
 
-# Link kitty
-if [ -e "$CONFIG_DIR/kitty" ] && [ ! -L "$CONFIG_DIR/kitty" ]; then
-  echo "📦 Backing up existing kitty config..."
-  mv "$CONFIG_DIR/kitty" "$CONFIG_DIR/kitty.backup"
-fi
-ln -sfn "$DOTFILES_DIR/.config/kitty" "$CONFIG_DIR/kitty"
-echo "✅ Linked kitty → $DOTFILES_DIR/.config/kitty"
-
 # Link ideavimrc (located in home directory)
 if [ -e "$HOME/.ideavimrc" ] && [ ! -L "$HOME/.ideavimrc" ]; then
   echo "📦 Backing up existing ideavimrc..."
