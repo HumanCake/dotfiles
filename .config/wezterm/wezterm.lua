@@ -14,7 +14,9 @@ config.font = wezterm.font("JetBrains Mono")
 config.color_scheme = "Dracula (Official)"
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE | RESIZE"
+config.initial_cols = 120
+config.initial_rows = 28
 
 config.window_padding = {
 	left = 0,
